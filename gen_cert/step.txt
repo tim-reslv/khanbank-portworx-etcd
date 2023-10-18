@@ -12,29 +12,29 @@ cfssl gencert -initca ca-csr.json | cfssljson -bare ca
 cd dev
 # modify server-csr.json update ETCD server IP, Hostname
 cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=server server-csr.json | cfssljson -bare server
-cp ../ca.pem ../../roles/ansible-role-etcd/files/dev/etcd-ca.crt
-cp ../ca-key.pem ../../roles/ansible-role-etcd/files/dev/etcd-ca.key
-cp server.pem ../../roles/ansible-role-etcd/files/dev/etcd.crt
-cp server-key.pem ../../roles/ansible-role-etcd/files/dev/etcd.key
+cp ../ca.pem ../../roles/ansible-role-etcd/files/dev/kvdb-ca.crt
+cp ../ca-key.pem ../../roles/ansible-role-etcd/files/dev/kvdb-ca.key
+cp server.pem ../../roles/ansible-role-etcd/files/dev/kvdb.crt
+cp server-key.pem ../../roles/ansible-role-etcd/files/dev/kvdb.key
 
 
 ### UAT ### 
 cd uat
 # modify server-csr.json update ETCD server IP, Hostname
 cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=server server-csr.json | cfssljson -bare server
-cp ../ca.pem ../../roles/ansible-role-etcd/files/uat/etcd-ca.crt
-cp ../ca-key.pem ../../roles/ansible-role-etcd/files/dev/etcd-ca.key
-cp server.pem ../../roles/ansible-role-etcd/files/uat/etcd.crt
-cp server-key.pem ../../roles/ansible-role-etcd/files/uat/etcd.key
+cp ../ca.pem ../../roles/ansible-role-etcd/files/uat/kvdb-ca.crt
+cp ../ca-key.pem ../../roles/ansible-role-etcd/files/dev/kvdb-ca.key
+cp server.pem ../../roles/ansible-role-etcd/files/uat/kvdb.crt
+cp server-key.pem ../../roles/ansible-role-etcd/files/uat/kvdb.key
 
 ### Prod ###
 cd prod
 # modify server-csr.json update ETCD server IP, Hostname
 cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=server server-csr.json | cfssljson -bare server
-cp ../ca.pem ../../roles/ansible-role-etcd/files/prod/etcd-ca.crt
-cp ../ca-key.pem ../../roles/ansible-role-etcd/files/dev/etcd-ca.key
-cp server.pem ../../roles/ansible-role-etcd/files/prod/etcd.crt
-cp server-key.pem ../../roles/ansible-role-etcd/files/prod/etcd.key
+cp ../ca.pem ../../roles/ansible-role-etcd/files/prod/kvdb-ca.crt
+cp ../ca-key.pem ../../roles/ansible-role-etcd/files/dev/kvdb-ca.key
+cp server.pem ../../roles/ansible-role-etcd/files/prod/kvdb.crt
+cp server-key.pem ../../roles/ansible-role-etcd/files/prod/kvdb.key
 
 # Generate Client Self-signed Key Pairs
 # cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client client-csr.json | cfssljson -bare client

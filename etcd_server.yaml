@@ -10,9 +10,9 @@
     etcd_interface: "ens160"
     peer_client_cert_auth: true
     client_cert_auth: true
-    trusted_ca_file: "{{etcd_conf_dir}}/etcd-ca.crt"
-    cert_file: "{{etcd_conf_dir}}/etcd.crt"
-    key_file: "{{etcd_conf_dir}}/etcd.key"
+    trusted_ca_file: "{{etcd_conf_dir}}/kvdb-ca.crt"
+    cert_file: "{{etcd_conf_dir}}/kvdb.crt"
+    key_file: "{{etcd_conf_dir}}/kvdb.key"
     etcd_settings:
       "name": "{{ansible_hostname}}"
       #['ansible_default_ipv4']['address']
@@ -51,10 +51,10 @@
 
     # Certificate authority and certificate files for etcd
     etcd_certificates:
-      - etcd-ca.crt               # certificate authority file
-      - etcd-ca.key
-      - etcd.crt
-      - etcd.key
+      - kvdb-ca.crt               # certificate authority file
+      - kvdb-ca.key
+      - kvdb.crt
+      - kvdb.key
 
   roles:
     - role: ansible-role-etcd
