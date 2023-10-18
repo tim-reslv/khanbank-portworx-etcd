@@ -1,0 +1,41 @@
+#!/bin/bash
+ENDPOINTS=https://`hostname -i|awk '{print $1}'`:2379 
+ETCD_DATA_DIR={{ etcd_data_dir }} 
+ETCD_BACKUP_PREFIX={{ etcd_data_dir }}/backups 
+ETCD_BACKUP_DIRECTORY=$ETCD_BACKUP_PREFIX 
+SNAPSHOT="snapshot_`date +%Y%m%d_%H%M%S`.db" 
+
+[[ -d $ETCD_BACKUP_DIRECTORY ]] || mkdir -p $ETCD_BACKUP_DIRECTORY 
+
+## Functions 
+is_leader() { 
+    ETCDCTL_API=3 etcdctl --endpoints=$ENDPOINTS --cacert={{ trusted_ca_file }} --cert={{ cert_file }} --key={{ key_file }} endpoint status --cluster|grep `hostname -i|awk '{print $1}'` |grep true 
+    if [ $? == 0 ]; then 
+        # 0 = true 
+        return 0 
+    else 
+        # 1 = false 
+        return 1 
+    fi 
+} 
+
+backup_logger() { 
+    if [[ $? -ne 0 ]]; then 
+        echo "etcd backup failed on $HOSTNAME." | systemd-cat -t etcd_backup -p err 
+    else 
+        echo "etcd backup completed successfully." | systemd-cat -t etcd_backup -p info 
+    fi 
+} 
+
+backup_etcdv3() { 
+    ETCDCTL_API=3 etcdctl --endpoints=$ENDPOINTS --cacert={{ trusted_ca_file }} --cert={{ cert_file }} --key={{ key_file }} snapshot save $ETCD_BACKUP_DIRECTORY/$SNAPSHOT 
+} 
+
+## Main 
+if is_leader; then 
+    backup_etcdv3 
+    backup_logger 
+find $ETCD_BACKUP_DIRECTORY -type f -mtime +7 -name "*.db"| xargs /bin/rm -rf 
+else 
+    echo "This ETCD is not leader, ignore backup" 
+fi

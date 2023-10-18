@@ -1,0 +1,42 @@
+# Install cfssl
+
+# curl -s -L -o /usr/bin/cfssl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+# curl -s -L -o /usr/bin/cfssljson https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+# chmod +x /usr/bin/{cfssl,cfssljson}
+
+### Generate Self-signed CA ###
+cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+
+### Generate Server Self-signed Key Pairs ###
+### DEV ###
+cd dev
+# modify server-csr.json update ETCD server IP, Hostname
+cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=server server-csr.json | cfssljson -bare server
+cp ../ca.pem ../../roles/ansible-role-etcd/files/dev/etcd-ca.crt
+cp ../ca-key.pem ../../roles/ansible-role-etcd/files/dev/etcd-ca.key
+cp server.pem ../../roles/ansible-role-etcd/files/dev/etcd.crt
+cp server-key.pem ../../roles/ansible-role-etcd/files/dev/etcd.key
+
+
+### UAT ### 
+cd uat
+# modify server-csr.json update ETCD server IP, Hostname
+cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=server server-csr.json | cfssljson -bare server
+cp ../ca.pem ../../roles/ansible-role-etcd/files/uat/etcd-ca.crt
+cp ../ca-key.pem ../../roles/ansible-role-etcd/files/dev/etcd-ca.key
+cp server.pem ../../roles/ansible-role-etcd/files/uat/etcd.crt
+cp server-key.pem ../../roles/ansible-role-etcd/files/uat/etcd.key
+
+### Prod ###
+cd prod
+# modify server-csr.json update ETCD server IP, Hostname
+cfssl gencert -ca=../ca.pem -ca-key=../ca-key.pem -config=../ca-config.json -profile=server server-csr.json | cfssljson -bare server
+cp ../ca.pem ../../roles/ansible-role-etcd/files/prod/etcd-ca.crt
+cp ../ca-key.pem ../../roles/ansible-role-etcd/files/dev/etcd-ca.key
+cp server.pem ../../roles/ansible-role-etcd/files/prod/etcd.crt
+cp server-key.pem ../../roles/ansible-role-etcd/files/prod/etcd.key
+
+# Generate Client Self-signed Key Pairs
+# cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client client-csr.json | cfssljson -bare client
+
+cp *.pem ../cert

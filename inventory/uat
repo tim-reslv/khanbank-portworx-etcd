@@ -1,0 +1,6 @@
+[etcd]
+az1crpetcv01u IP=10.22.66.50 ansible_ssh_host=10.22.66.50
+az2crpetcv01u IP=10.23.66.50 ansible_ssh_host=10.23.66.50
+arbcrpetcv01u IP=10.18.167.2 ansible_ssh_host=10.18.167.2
+[etcd:vars]
+etcd_ca_conf_directory=uat

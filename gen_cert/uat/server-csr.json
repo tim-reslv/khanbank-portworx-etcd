@@ -1,0 +1,31 @@
+{
+  "CN": "etcd-server",
+  "hosts": [
+    "localhost",
+    "0.0.0.0",
+    "127.0.0.1",
+    "10.22.66.50",
+    "10.23.66.50",
+    "10.19.66.50",
+    "10.21.66.50",
+    "10.22.66.133",
+    "10.23.66.133",
+    "10.18.167.2",
+    "az1crpetcv01u",
+    "az2crpetcv01u",
+    "arbcrpetcv01u"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 4096
+  },
+  "names": [
+    {
+      "C": "MN",
+      "L": "Mongolia",
+      "O": "ETCD",
+      "OU": "KhanBank",
+      "ST": "Mongolia"
+    }
+  ]
+}

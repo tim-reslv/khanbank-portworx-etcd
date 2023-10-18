@@ -1,0 +1,20 @@
+{
+  "CA": {
+    "expiry": "87600h",
+    "pathlen": 0
+  },
+  "CN": "Etcd",
+  "key": {
+    "algo": "rsa",
+    "size": 4096
+  },
+  "names": [
+    {
+      "C": "MN",
+      "L": "Mongolia",
+      "O": "ETCD",
+      "OU": "KhanBank",
+      "ST": "Mongolia"
+    }
+  ]
+}
